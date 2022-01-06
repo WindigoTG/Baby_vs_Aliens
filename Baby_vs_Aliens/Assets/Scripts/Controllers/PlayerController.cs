@@ -37,6 +37,8 @@ namespace Baby_vs_Aliens
             _view.Damaged += _health.TakeDamage;
 
             _health.Death += KillPlayer;
+
+            (_health as HealthHolder).HealthPercentage.SubscribeOnChange(_view.HealthBar.SetBarSize);
         }
 
         #endregion

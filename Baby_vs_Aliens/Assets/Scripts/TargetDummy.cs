@@ -9,6 +9,10 @@ namespace Baby_vs_Aliens
     {
         [SerializeField] EntityType _type;
         [SerializeField] ProjectileConfig _config;
+        [SerializeField] int _maxHealth;
+        private IHealthHolder _health;
+
+        [SerializeField] private HealthBar _healthBar;
 
         private float _currentDelay;
 
@@ -16,12 +20,16 @@ namespace Baby_vs_Aliens
 
         public void TakeDamege(int damage)
         {
-            Debug.Log($"Took {damage} damage");
+            _health.TakeDamage(damage);
         }
 
         private void Awake()
         {
             _currentDelay = _config.FireDelay;
+
+            _health = new HealthHolder(_maxHealth);
+            (_health as HealthHolder).HealthPercentage.SubscribeOnChange(_healthBar.SetBarSize);
+            _health.Death += () => { gameObject.SetActive(false); };
         }
 
         private void Update()

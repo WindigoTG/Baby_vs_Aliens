@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Baby_vs_Aliens.Tools;
 
 namespace Baby_vs_Aliens
 {
@@ -12,6 +13,8 @@ namespace Baby_vs_Aliens
 
         public event Action Death;
 
+        public readonly SubscriptionProperty<float> HealthPercentage;
+
         #endregion
 
 
@@ -20,6 +23,8 @@ namespace Baby_vs_Aliens
         public int CurrentHelth => _currentHealth;
 
         public bool IsDead => _currentHealth <= 0;
+
+        private float HelthPerc => (float)_currentHealth / (float)_maxHealth;
 
         #endregion
 
@@ -30,6 +35,10 @@ namespace Baby_vs_Aliens
         {
             _maxHealth = maxHealth;
             _currentHealth = maxHealth;
+
+            HealthPercentage = new SubscriptionProperty<float>();
+
+            HealthPercentage.Value = HelthPerc;
         }
 
         #endregion
@@ -46,20 +55,26 @@ namespace Baby_vs_Aliens
         {
             _maxHealth = newMaxAmount;
             _currentHealth = newMaxAmount;
+
+            HealthPercentage.Value = HelthPerc;
         }
 
         public void ResetHealth()
         {
             _currentHealth = _maxHealth;
+
+            HealthPercentage.Value = HelthPerc;
         }
 
         public void TakeDamage(int damage)
         {
             _currentHealth -= damage;
             Debug.Log($"Current health: {_currentHealth}");
+            HealthPercentage.Value = HelthPerc;
 
             if (IsDead)
                 Death?.Invoke();
+
         }
 
         #endregion

@@ -12,6 +12,8 @@ namespace Baby_vs_Aliens
         [SerializeField] private ParticleSystem _bubblesDeath;
         [SerializeField] private GameObject _characterModel;
 
+        [SerializeField] private HealthBar _healthBar;
+
         private Animator _animator;
         private Rigidbody _rigidBody;
 
@@ -40,6 +42,8 @@ namespace Baby_vs_Aliens
 
         public ParticleSystem DeathParticles => _bubblesDeath;
 
+        public HealthBar HealthBar => _healthBar;
+
         #endregion
 
 
@@ -61,6 +65,12 @@ namespace Baby_vs_Aliens
 
             _rigidBody.MovePosition(newPosition);
             _moveVector = Vector3.zero;
+        }
+
+        private void Update()
+        {
+            _healthBar.transform.rotation = Quaternion.Euler( new Vector3(70, 0, 0));
+            _healthBar.transform.position = transform.position + Vector3.back * 0.5f + Vector3.up * 0.1f;
         }
 
         #endregion
@@ -92,12 +102,14 @@ namespace Baby_vs_Aliens
         {
             _characterModel.SetActive(false);
             _collider.enabled = false;
+            _healthBar.gameObject.SetActive(false);
         }
 
         public void ShowCharacter()
         {
             _characterModel.SetActive(true);
             _collider.enabled = true;
+            _healthBar.gameObject.SetActive(true);
         }
 
         #endregion
