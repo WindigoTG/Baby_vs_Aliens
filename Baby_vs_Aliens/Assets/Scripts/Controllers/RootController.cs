@@ -1,4 +1,5 @@
 using UnityEngine;
+using Baby_vs_Aliens.Tools;
 
 namespace Baby_vs_Aliens
 {
@@ -8,9 +9,13 @@ namespace Baby_vs_Aliens
 
         private void Awake()
         {
+            Application.targetFrameRate = 60;
+
             var playerProfile = new PlayerProfile();
             playerProfile.CurrentState.Value = GameState.Game;
             _mainController = new MainController(playerProfile);
+
+            ServiceLocator.AddService(new ObjectPoolManager());
         }
 
         private void Update()

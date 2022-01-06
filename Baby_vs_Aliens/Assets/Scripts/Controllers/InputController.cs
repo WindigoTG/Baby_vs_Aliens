@@ -7,17 +7,20 @@ namespace Baby_vs_Aliens
     {
         public readonly SubscriptionProperty<Vector3> MovementVector;
         public readonly SubscriptionProperty<Vector3> MousePosition;
+        public readonly SubscriptionProperty<bool> AttackInput;
 
         public InputController()
         {
             MovementVector = new SubscriptionProperty<Vector3>();
             MousePosition = new SubscriptionProperty<Vector3>();
+            AttackInput = new SubscriptionProperty<bool>();
         }
 
         public void UpdateRegular()
         {
             CheckForMoveInput();
             GetMousePosition();
+            CheckForAttackInput();
         }
 
         private void CheckForMoveInput()
@@ -27,7 +30,7 @@ namespace Baby_vs_Aliens
                                                 z = Input.GetAxisRaw(References.INPUT_AXIS_VERTICAL)};
         }
 
-        public void GetMousePosition()
+        private void GetMousePosition()
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -38,6 +41,11 @@ namespace Baby_vs_Aliens
                 hitPoint.y = 0;
                 MousePosition.Value = hitPoint;
             }
+        }
+
+        private void CheckForAttackInput()
+        {
+            AttackInput.Value = Input.GetMouseButtonDown(0);
         }
     }
 }

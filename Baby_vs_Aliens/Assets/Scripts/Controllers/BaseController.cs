@@ -7,9 +7,16 @@ namespace Baby_vs_Aliens
 {
     public class BaseController : IDisposable
     {
+        #region Fields
+
         private List<BaseController> _baseControllers = new List<BaseController>();
         private List<GameObject> _gameObjects = new List<GameObject>();
         private bool _isDisposed;
+
+        #endregion
+
+
+        #region IDisposable
 
         public void Dispose()
         {
@@ -31,6 +38,11 @@ namespace Baby_vs_Aliens
             OnDispose();
         }
 
+        #endregion
+
+
+        #region Methods
+
         protected void AddController(BaseController baseController)
         {
             _baseControllers.Add(baseController);
@@ -44,5 +56,7 @@ namespace Baby_vs_Aliens
         protected virtual void OnDispose()
         {
         }
+
+        #endregion
     }
 }

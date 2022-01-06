@@ -6,7 +6,14 @@ namespace Baby_vs_Aliens
 {
     public class GameController : BaseController, IUpdateableRegular
     {
+        #region Fields
+
         private List<IUpdateableRegular> _updateablesRegular;
+
+        #endregion
+
+
+        #region ClassLifeCycles
 
         public GameController(PlayerProfile playerProfile)
         {
@@ -18,7 +25,13 @@ namespace Baby_vs_Aliens
 
             var playerController = new PlayerController(inputController);
             AddController(playerController);
+            _updateablesRegular.Add(playerController);
         }
+
+        #endregion
+
+
+        #region IUpdateableRegular
 
         public void UpdateRegular()
         {
@@ -28,10 +41,17 @@ namespace Baby_vs_Aliens
             }
         }
 
+        #endregion
+
+
+        #region Methods
+
         protected override void OnDispose()
         {
             _updateablesRegular.Clear();
             base.OnDispose();
         }
+
+        #endregion
     }
 }
